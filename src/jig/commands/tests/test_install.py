@@ -49,7 +49,7 @@ class TestInstallCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(dedent(
-                u'''
+                '''
                 From {0}:
                  - Added plugin plugin01 in bundle test01
                 '''.format(self.plugin01_dir)),
@@ -69,7 +69,7 @@ class TestInstallCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(dedent(
-                u'''
+                '''
                 From {0}:
                  - Added plugin plugin01 in bundle test01
                 From {0}:
@@ -93,7 +93,7 @@ class TestInstallCommand(CommandTestCase, PluginTestCase):
         self.run_command('jigplugins.txt')
 
         self.assertResults(result_with_hint(dedent(
-            u'''
+            '''
             From {0}:
              - File contains parsing errors: {0}/config.cfg
             \t[line  2]: 'This is a bad config file that will fail to parse\\n'

@@ -50,8 +50,8 @@ class TestReportCommand(CommandTestCase, PluginTestCase):
             )
 
         self.assertResults(
-            u'The Git working directory must be clean before '
-            u'running this command.\n',
+            'The Git working directory must be clean before '
+            'running this command.\n',
             self.error)
 
     def test_reports_one_commit(self):
@@ -65,7 +65,7 @@ class TestReportCommand(CommandTestCase, PluginTestCase):
 
         self.assertSystemExitCode(ec.exception, 0)
 
-        self.assertResults(u"""
+        self.assertResults("""
             ▾  plugin01
 
             ⚠  line 1: c.txt
@@ -82,7 +82,7 @@ class TestReportCommand(CommandTestCase, PluginTestCase):
         with self.assertRaises(SystemExit):
             self.run_command('{0}'.format(self.gitrepodir))
 
-        self.assertResults(u"""
+        self.assertResults("""
             ▾  plugin01
 
             ⚠  line 1: c.txt
@@ -103,7 +103,7 @@ class TestReportCommand(CommandTestCase, PluginTestCase):
 
         self.assertSystemExitCode(ec.exception, 0)
 
-        self.assertResults(u"""
+        self.assertResults("""
             ▾  plugin01
 
             ⚠  line 1: c.txt
@@ -129,7 +129,7 @@ class TestReportCommand(CommandTestCase, PluginTestCase):
 
         self.assertSystemExitCode(ec.exception, 0)
 
-        self.assertResults(u"""
+        self.assertResults("""
             ▾  plugin01
 
             ⚠  line 1: c.txt

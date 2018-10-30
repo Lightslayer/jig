@@ -15,19 +15,19 @@ class TestSlugify(JigTestCase):
         """
         An empty string is given.
         """
-        self.assertEqual(u'', slugify(u''))
+        self.assertEqual('', slugify(''))
 
     def test_normal_ascii_string(self):
         """
         ASCII string.
         """
-        self.assertEqual(u'abc-def-ghi', slugify(u'Abc & Def Ghi'))
+        self.assertEqual('abc-def-ghi', slugify('Abc & Def Ghi'))
 
     def test_special_characters(self):
         """
         Special characters in the string.
         """
-        self.assertEqual(u'abc-def-ghi', slugify(u'Abç \u0000 Def Ghi'))
+        self.assertEqual('abc-def-ghi', slugify('Abç \u0000 Def Ghi'))
 
 
 class TestNumberedDirectoriesToGit(JigTestCase):
@@ -201,7 +201,7 @@ class TestIndent(JigTestCase):
         List payload indents each item and returns a list.
         """
         self.assertEqual(
-            [u'    a', u'    b', u'    c'],
+            ['    a', '    b', '    c'],
             indent(['a', 'b', 'c']))
 
     def test_indents_different_by(self):
@@ -209,7 +209,7 @@ class TestIndent(JigTestCase):
         Can change the default indent of 4 to a different integer.
         """
         self.assertEqual(
-            [u' a', u' b', u' c'],
+            [' a', ' b', ' c'],
             indent(['a', 'b', 'c'], by=1))
 
     def test_indents_different_character(self):
@@ -217,5 +217,5 @@ class TestIndent(JigTestCase):
         Can change the character used to indent to something else.
         """
         self.assertEqual(
-            [u'?a', u'?b', u'?c'],
+            ['?a', '?b', '?c'],
             indent(['a', 'b', 'c'], by=1, character='?'))

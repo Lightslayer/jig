@@ -220,7 +220,7 @@ class TestPlugin(PluginTestCase):
         self.assertIn('argument.txt', data)
         # And our first line should be a warning
         self.assertEqual(
-            [1, u'warn', u'The cast: is +'],
+            [1, 'warn', 'The cast: is +'],
             data['argument.txt'][0])
 
     def test_sigpipe_error(self):
@@ -276,9 +276,9 @@ class TestPlugin(PluginTestCase):
 
         with patch.object(Popen, 'communicate'):
             # Send it encoded unicode to see if it will convert it back
-            Popen.communicate.return_value = (u'å∫ç'.encode('utf-8'), '')
+            Popen.communicate.return_value = ('å∫ç'.encode('utf-8'), '')
 
             retcode, stdout, stderr = pm.plugins[0].pre_commit(gdi)
 
-        self.assertEqual(u'å∫ç', stdout)
-        self.assertEqual(u'', stderr)
+        self.assertEqual('å∫ç', stdout)
+        self.assertEqual('', stderr)

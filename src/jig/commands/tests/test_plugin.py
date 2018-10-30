@@ -56,7 +56,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'No plugins installed.',
+                'No plugins installed.',
                 NO_PLUGINS_INSTALLED),
             self.output)
 
@@ -76,7 +76,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.run_command('list -r {0}'.format(self.gitrepodir))
 
-        self.assertResults(result_with_hint(u'''
+        self.assertResults(result_with_hint('''
             Installed plugins
 
             Plugin name               Bundle name
@@ -101,7 +101,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.run_command('list -r {0}'.format(self.gitrepodir))
 
-        self.assertResults(result_with_hint(u'''
+        self.assertResults(result_with_hint('''
             Installed plugins
 
             Plugin name               Bundle name
@@ -127,7 +127,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.run_command('list -r {0}'.format(self.gitrepodir))
 
-        self.assertResults(result_with_hint(u'''
+        self.assertResults(result_with_hint('''
             Installed plugins
 
             Plugin name               Bundle name
@@ -147,9 +147,9 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
         with self.assertRaises(ForcedExit):
             self.run_command('add {0}'.format(tmp_dir))
 
-        self.assertRegexpMatches(
+        self.assertRegex(
             self.error,
-            u'The plugin file (.+)config.cfg is missing')
+            'The plugin file (.+)config.cfg is missing')
 
     @cd_gitrepo
     def test_add_plugin(self):
@@ -169,7 +169,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
         self.assertTrue(config.has_section('plugin:a:a'))
 
         self.assertResults(
-            u'''
+            '''
             Added plugin a in bundle a to the repository.
 
             Run the plugins in the current repository with this command:
@@ -193,7 +193,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.gitrepodir, plugin_dir))
 
         self.assertResults(
-            u'''
+            '''
             Added plugin a in bundle a to the repository.
 
             Run the plugins in the current repository with this command:
@@ -317,7 +317,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.run_command('remove a')
 
         self.assertEqual(
-            u'This plugin does not exist.\n',
+            'This plugin does not exist.\n',
             self.error)
 
     @cd_gitrepo
@@ -340,7 +340,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
         self.assertFalse(config.has_section('plugin:bundle:name'))
 
         self.assertEqual(
-            u'Removed plugin name\n',
+            'Removed plugin name\n',
             self.output)
 
     @cd_gitrepo
@@ -358,7 +358,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
         self.run_command('remove name')
 
         self.assertEqual(
-            u'Removed plugin name\n',
+            'Removed plugin name\n',
             self.output)
 
     def test_remove_plugin_same_name(self):
@@ -384,8 +384,8 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.run_command('remove -r {0} name'.format(self.gitrepodir))
 
         self.assertEqual(
-            u'More than one plugin has the name of name. Use the list '
-            u'command to see installed plugins.\n',
+            'More than one plugin has the name of name. Use the list '
+            'command to see installed plugins.\n',
             self.error)
 
     def test_create_with_bad_language(self):
@@ -398,7 +398,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'Language php is not supported yet.',
+                'Language php is not supported yet.',
                 FORK_PROJECT_GITHUB),
             self.error)
 
@@ -415,8 +415,8 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.run_command('create --dir {0} name bundle'.format(save_dir))
 
         self.assertEqual(
-            u'A plugin with this name already exists in this '
-            u'directory: {0}.\n'.format(save_dir),
+            'A plugin with this name already exists in this '
+            'directory: {0}.\n'.format(save_dir),
             self.error)
 
     def test_create_plugin(self):
@@ -472,10 +472,10 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             mkdtemp(), template='python',
             bundle='bundle', name='name')
 
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin())]
 
         with patch('jig.commands.plugin.PluginTestRunner') as ptr:
@@ -485,7 +485,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.run_command('test {0}'.format(plugin_dir))
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Pass
 
             Pass 1, Fail 0''', self.output)
@@ -520,7 +520,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'a.b is an invalid numbered test range',
+                'a.b is an invalid numbered test range',
                 INVALID_RANGE),
             self.error)
 
@@ -532,10 +532,10 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             mkdtemp(), template='python',
             bundle='bundle', name='name')
 
-        expectation = Expectation((1, 2), None, u'bbb')
+        expectation = Expectation((1, 2), None, 'bbb')
         results = [
             FailureResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin())]
 
         with patch('jig.commands.plugin.PluginTestRunner') as ptr:
@@ -546,7 +546,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
                 self.run_command('test {0}'.format(plugin_dir))
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Fail
 
             Actual
@@ -571,10 +571,10 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             mkdtemp(), template='python',
             bundle='bundle', name='name')
 
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin())]
 
         with patch('jig.commands.plugin.PluginTestRunner') as ptr:
@@ -585,7 +585,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
                 self.run_command('test')
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Pass
 
             Pass 1, Fail 0''', self.output)
@@ -598,10 +598,10 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             mkdtemp(), template='python',
             bundle='bundle', name='name')
 
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin(), stdin='a\n', stdout='b\n')]
 
         with patch('jig.commands.plugin.PluginTestRunner') as ptr:
@@ -611,7 +611,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.run_command('test -v {0}'.format(plugin_dir))
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Pass
 
             stdin (sent to the plugin)

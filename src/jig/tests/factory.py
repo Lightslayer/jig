@@ -21,39 +21,39 @@ def no_results():
         (MockPlugin(), (0, '', '')),
         (MockPlugin(), (0, [''], '')),
         (MockPlugin(), (0, [['w', '']], '')),
-        (MockPlugin(), (0, {u'a.txt': u''}, '')),
-        (MockPlugin(), (0, {u'a.txt': [[]]}, '')),
-        (MockPlugin(), (0, {u'a.txt': [[u'']]}, '')),
-        (MockPlugin(), (0, {u'a.txt': [['', u'']]}, '')),
-        (MockPlugin(), (0, {u'a.txt': [[None, '', u'']]}, '')),
-        (MockPlugin(), (0, {u'a.txt': [[1, '', u'']]}, ''))
+        (MockPlugin(), (0, {'a.txt': ''}, '')),
+        (MockPlugin(), (0, {'a.txt': [[]]}, '')),
+        (MockPlugin(), (0, {'a.txt': [['']]}, '')),
+        (MockPlugin(), (0, {'a.txt': [['', '']]}, '')),
+        (MockPlugin(), (0, {'a.txt': [[None, '', '']]}, '')),
+        (MockPlugin(), (0, {'a.txt': [[1, '', '']]}, ''))
     ])
 
 
 def commit_specific_message():
     return OrderedDict([
         (MockPlugin(), (0, 'default', '')),
-        (MockPlugin(), (0, [[u'warn', u'warning']], ''))
+        (MockPlugin(), (0, [['warn', 'warning']], ''))
     ])
 
 
 def file_specific_message():
     # Line number of None will be recognized as file-specific.
     stdout1 = OrderedDict([
-        (u'a.txt', [[None, u'warn', 'Problem with this file']])
+        ('a.txt', [[None, 'warn', 'Problem with this file']])
     ])
 
     # Will a length of 2 be recognized as file-specific?
     stdout2 = OrderedDict([
-        (u'a.txt', [[u'warn', 'Problem with this file']])
+        ('a.txt', [['warn', 'Problem with this file']])
     ])
 
     # Can we handle more than one file and different argument signatures
     # for the type?
     stdout3 = OrderedDict([
-        (u'a.txt', [['Info A']]),
-        (u'b.txt', [[u'warn', 'Warn B']]),
-        (u'c.txt', [[u's', 'Stop C']])
+        ('a.txt', [['Info A']]),
+        ('b.txt', [['warn', 'Warn B']]),
+        ('c.txt', [['s', 'Stop C']])
     ])
 
     return OrderedDict([
@@ -65,9 +65,9 @@ def file_specific_message():
 
 def line_specific_message():
     stdout = OrderedDict([
-        (u'a.txt', [[1, None, 'Info A']]),
-        (u'b.txt', [[2, u'warn', 'Warn B']]),
-        (u'c.txt', [[3, u'stop', 'Stop C']])
+        ('a.txt', [[1, None, 'Info A']]),
+        ('b.txt', [[2, 'warn', 'Warn B']]),
+        ('c.txt', [[3, 'stop', 'Stop C']])
     ])
 
     return OrderedDict([
@@ -78,8 +78,8 @@ def line_specific_message():
 def one_of_each():
     return OrderedDict([
         (MockPlugin(), (0, ['C'], '')),
-        (MockPlugin(), (0, {u'a.txt': u'F'}, '')),
-        (MockPlugin(), (0, {u'a.txt': [[1, None, u'L']]}, ''))
+        (MockPlugin(), (0, {'a.txt': 'F'}, '')),
+        (MockPlugin(), (0, {'a.txt': [[1, None, 'L']]}, ''))
     ])
 
 

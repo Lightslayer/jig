@@ -1,5 +1,5 @@
 from os.path import join
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 from collections import namedtuple
 from textwrap import TextWrapper
 
@@ -117,7 +117,7 @@ class Command(BaseCommand):
         bundles = plugins_by_bundle(pm)
 
         # Gather up all the settings sorted by plugin and then setting
-        sort_bundles = sorted(bundles.items(), key=lambda b: b[0])
+        sort_bundles = sorted(list(bundles.items()), key=lambda b: b[0])
 
         for name, plugins in sort_bundles:
             sort_plugins = sorted(plugins, key=lambda p: p.name)
@@ -125,7 +125,7 @@ class Command(BaseCommand):
             for plugin in sort_plugins:
                 # Configuration from the plugins.cfg file, not the plugin
                 # defaults
-                local_config = OrderedDict(plugin.config.items())
+                local_config = OrderedDict(list(plugin.config.items()))
 
                 # Get the plugin defaults in case they've changed or vanished
                 # from plugins.cfg
@@ -142,7 +142,7 @@ class Command(BaseCommand):
                 merged_config.update(default_config)
                 merged_config.update(local_config)
 
-                sort_config = sorted(merged_config.items(), key=lambda s: s[0])
+                sort_config = sorted(list(merged_config.items()), key=lambda s: s[0])
 
                 for key, value in sort_config:
                     yield SettingsMeta(
@@ -162,7 +162,7 @@ class Command(BaseCommand):
             pm = PluginManager(config)
 
             if not pm.plugins:
-                printer(u'No plugins installed.')
+                printer('No plugins installed.')
                 printer(NO_PLUGINS_INSTALLED)
                 return
 
@@ -170,14 +170,14 @@ class Command(BaseCommand):
 
             for meta in settings:
                 printer(
-                    u'{bundle}.{plugin}.{config_key}={config_value}'.format(
+                    '{bundle}.{plugin}.{config_key}={config_value}'.format(
                         bundle=meta.plugin.bundle, plugin=meta.plugin.name,
                         config_key=meta.key, config_value=meta.value
                     )
                 )
 
             if not settings:
-                printer(u'Installed plugins have no settings.')
+                printer('Installed plugins have no settings.')
 
             printer(CHANGE_PLUGIN_SETTINGS)
 
@@ -193,7 +193,7 @@ class Command(BaseCommand):
                 width=70,
                 initial_indent=indent,
                 subsequent_indent=indent)
-            return u'\n'.join(tw.wrap(payload))
+            return '\n'.join(tw.wrap(payload))
 
         with self.out() as printer:
             config = get_jigconfig(path)
@@ -201,25 +201,25 @@ class Command(BaseCommand):
             pm = PluginManager(config)
 
             if not pm.plugins:
-                printer(u'No plugins installed.')
+                printer('No plugins installed.')
                 printer(NO_PLUGINS_INSTALLED)
                 return
 
             settings = list(self._settings(pm))
 
             for meta in settings:
-                printer(u'{bundle}.{plugin}.{config_key}'.format(
+                printer('{bundle}.{plugin}.{config_key}'.format(
                     bundle=meta.plugin.bundle, plugin=meta.plugin.name,
                     config_key=meta.key))
-                printer(u'(default: {0})'.format(meta.default))
+                printer('(default: {0})'.format(meta.default))
 
                 if meta.about:
                     printer(wrap(meta.about.strip()))
 
-                printer(u'')
+                printer('')
 
             if not settings:
-                printer(u'Installed plugins have no settings.')
+                printer('Installed plugins have no settings.')
 
     def set(self, argv):
         """

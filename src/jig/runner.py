@@ -114,7 +114,7 @@ class Runner(object):
             # We will reconnect to the tty so that raw_input works.
             while True:
                 try:
-                    answer = raw_input(
+                    answer = input(
                         '\nCommit anyway (hit "c"), or stop (hit "s"): ')
                 except KeyboardInterrupt:
                     sys.exit(1)
@@ -151,7 +151,7 @@ class Runner(object):
         :params string gitrepo: path to the Git repository
         """
         with self.view.out() as printer:
-            printer(u'Checking for plugin updates\u2026')
+            printer('Checking for plugin updates\u2026')
 
         # Examine the remotes of the installed plugins
         if not plugins_have_updates(gitrepo):
@@ -165,7 +165,7 @@ class Runner(object):
         # remote and install them
         while True:
             try:
-                answer = raw_input(
+                answer = input(
                     '\nPlugin updates are available, install ("y"/"n"): ')
             except KeyboardInterrupt:
                 # If the user CTRL-C's out, leave the last date checked for

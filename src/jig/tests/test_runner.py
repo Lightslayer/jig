@@ -43,7 +43,7 @@ class TestRunner(RunnerTestCase, PluginTestCase):
             self.assertSystemExitCode(ec.exception, 0)
 
             self.assertEqual(
-                u'\U0001f44c  Jig ran 1 plugin, nothing to report\n',
+                '\U0001f44c  Jig ran 1 plugin, nothing to report\n',
                 self.output)
 
     def test_uninitialized_repo(self):
@@ -60,7 +60,7 @@ class TestRunner(RunnerTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'This repository has not been initialized.',
+                'This repository has not been initialized.',
                 GIT_REPO_NOT_INITIALIZED),
             self.error)
 
@@ -459,14 +459,14 @@ class TestRunnerResults(RunnerTestCase, PluginTestCase):
         self.assertEqual(1, len(results))
 
         # It's plugin01
-        self.assertEqual('plugin01', results.keys()[0].name)
+        self.assertEqual('plugin01', list(results.keys())[0].name)
 
-        retcode, stdout, stderr = results.items()[0][1]
+        retcode, stdout, stderr = list(results.items())[0][1]
 
         # The return code is 0
         self.assertEqual(0, retcode)
         # We auto-convert to an object
-        self.assertEqual({u'b.txt': [[1, u'warn', u'b is +']]}, stdout)
+        self.assertEqual({'b.txt': [[1, 'warn', 'b is +']]}, stdout)
         # And no errors occurred here
         self.assertEqual('', stderr)
 
@@ -493,11 +493,11 @@ class TestRunnerResults(RunnerTestCase, PluginTestCase):
 
         results = self.runner.results(self.gitrepodir)
 
-        _, stdout, _ = results.items()[0][1]
+        _, stdout, _ = list(results.items())[0][1]
 
         self.assertEqual(
-            {u'a.txt': [[1, u'warn', u'a is -'],
-                        [1, u'warn', u'aaa is +']]},
+            {'a.txt': [[1, 'warn', 'a is -'],
+                        [1, 'warn', 'aaa is +']]},
             stdout
         )
 
@@ -519,10 +519,10 @@ class TestRunnerResults(RunnerTestCase, PluginTestCase):
 
         results = self.runner.results(self.gitrepodir)
 
-        _, stdout, _ = results.items()[0][1]
+        _, stdout, _ = list(results.items())[0][1]
 
         # We should see it being removed
-        self.assertEqual({u'a.txt': [[1, u'warn', u'a is -']]}, stdout)
+        self.assertEqual({'a.txt': [[1, 'warn', 'a is -']]}, stdout)
 
     def test_specific_plugin(self):
         """
@@ -581,7 +581,7 @@ class TestRunnerResults(RunnerTestCase, PluginTestCase):
 
             results = self.runner.results(self.gitrepodir)
 
-            _, stdout, _ = results.items()[0][1]
+            _, stdout, _ = list(results.items())[0][1]
 
         # And we can still get the output even though it's not JSON
         self.assertEqual('Test non-JSON output', stdout)
@@ -609,7 +609,7 @@ class TestRunnerResults(RunnerTestCase, PluginTestCase):
 
             results = self.runner.results(self.gitrepodir)
 
-            retcode, _, stderr = results.items()[0][1]
+            retcode, _, stderr = list(results.items())[0][1]
 
         self.assertEqual(1, retcode)
         self.assertEqual(
@@ -643,7 +643,7 @@ class TestRunnerRevRange(RunnerTestCase, PluginTestCase):
         """
         Get the file changes for the given results.
         """
-        return results.items()[0][1][1]
+        return list(results.items())[0][1][1]
 
     def test_bad_rev_range_format(self):
         """

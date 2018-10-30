@@ -5,7 +5,7 @@ from stat import S_IXUSR, S_IXGRP, S_IXOTH
 from functools import wraps
 from datetime import datetime
 from calendar import timegm
-from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
+from configparser import SafeConfigParser, NoSectionError, NoOptionError
 
 import git
 
@@ -202,7 +202,7 @@ def set_checked_for_updates(gitrepo, date=None):
     if not config.has_section('jig'):
         config.add_section('jig')
 
-    config.set('jig', 'last_checked_for_updates', unicode(date))
+    config.set('jig', 'last_checked_for_updates', str(date))
 
     return config
 
@@ -233,7 +233,7 @@ def create_plugin(in_dir, bundle, name, template='python', settings={}):
 
     # Add settings if applicable
     if settings:
-        for key, val in settings.items():
+        for key, val in list(settings.items()):
             config.set('settings', key, str(val))
 
     # Create a safe directory name from the plugin name

@@ -242,14 +242,14 @@ class TestPrepareAgainstStagedIndex(PrepareTestCase):
             (modified, staged, indexremoved, fsremoved, untracked)
         )
 
-        options = chain.from_iterable(map(mutation, [2, 3, 4, 5]))
+        options = chain.from_iterable(list(map(mutation, [2, 3, 4, 5])))
 
         for option in options:
             # Mutate the Git repository
-            map(lambda x: x(), option)
+            list(map(lambda x: x(), option))
 
             with self.prepare() as stash:
-                should_stash = any(map(lambda x: x.should_stash, option))
+                should_stash = any([x.should_stash for x in option])
 
                 if should_stash:
                     self.assertIsNotNone(stash)

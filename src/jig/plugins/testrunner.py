@@ -3,10 +3,10 @@ import json
 import re
 from codecs import open
 from os.path import join, abspath
-from StringIO import StringIO
+from io import StringIO
 from collections import namedtuple
 from operator import itemgetter
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 
 from docutils import nodes, core, io
 from docutils.parsers.rst import Directive, directives
@@ -37,7 +37,7 @@ DOCUTILS_DIFFERENT_SECTION_NODES = (
 # How wide do we want the columns to be when we report test output
 REPORTER_COLUMN_WIDTH = 80
 # A horizontal dividing line to separate sections
-REPORTER_HORIZONTAL_DIVIDER = u''.join([u'·'] * REPORTER_COLUMN_WIDTH)
+REPORTER_HORIZONTAL_DIVIDER = ''.join(['·'] * REPORTER_COLUMN_WIDTH)
 
 RESULTS_SUMMARY_SIGNATURE_RE = re.compile(
     r'^.*Jig\ ran.*$', re.MULTILINE)
@@ -206,17 +206,17 @@ class Result(tuple):
         """
         Return a new OrderedDict which maps field names to their values.
         """
-        return OrderedDict(zip(self._fields, self))
+        return OrderedDict(list(zip(self._fields, self)))
 
     def _replace(_self, **kwds):
         """
         Return a new object replacing specified fields with new values.
         """
-        result = _self._make(map(
+        result = _self._make(list(map(
             kwds.pop,
-            ('expectation', 'actual', 'plugin', 'stdin', 'stdout'), _self))
+            ('expectation', 'actual', 'plugin', 'stdin', 'stdout'), _self)))
         if kwds:
-            raise ValueError('Got unexpected field names: %r' % kwds.keys())
+            raise ValueError('Got unexpected field names: %r' % list(kwds.keys()))
         return result
 
     def __getnewargs__(self):
@@ -453,14 +453,14 @@ class PluginTestReporter(object):
                 pass
             data[i] = indent(data[i].splitlines())
 
-        out.append(u'stdin (sent to the plugin)')
-        out.append(u'')
+        out.append('stdin (sent to the plugin)')
+        out.append('')
         out.extend(data[0])
-        out.append(u'')
-        out.append(u'stdout (received from the plugin)')
-        out.append(u'')
+        out.append('')
+        out.append('stdout (received from the plugin)')
+        out.append('')
         out.extend(data[1])
-        out.append(u'')
+        out.append('')
         out.append(REPORTER_HORIZONTAL_DIVIDER)
 
     def dumps(self, verbose=False):
@@ -482,28 +482,28 @@ class PluginTestReporter(object):
                 self._add_verbosity(v_out, result.stdin, result.stdout)
 
             if isinstance(result, SuccessResult):
-                out.append(green_bold(u'{0:02d} – {1:02d} Pass'.format(
+                out.append(green_bold('{0:02d} – {1:02d} Pass'.format(
                     exprange[0], exprange[1])))
-                out.append(u'')
+                out.append('')
                 out.extend(v_out)
                 continue
 
-            out.append(red_bold(u'{0:02d} – {1:02d} Fail'.format(
+            out.append(red_bold('{0:02d} – {1:02d} Fail'.format(
                 exprange[0], exprange[1])))
 
             out.extend(v_out)
 
-            out.append(u'')
+            out.append('')
 
-            out.append(u'Actual')
+            out.append('Actual')
             out.append(REPORTER_HORIZONTAL_DIVIDER)
-            out.append(u'')
+            out.append('')
             out.extend(result.actual.splitlines())
-            out.append(u'')
+            out.append('')
 
-            out.append(u'Diff')
+            out.append('Diff')
             out.append(REPORTER_HORIZONTAL_DIVIDER)
-            out.append(u'')
+            out.append('')
 
             diff = describe_diff(result.expectation.output, result.actual)
             for (_, diff_type, line) in diff:
@@ -515,16 +515,16 @@ class PluginTestReporter(object):
                     # No operation but return
                     decorator = lambda a: a
 
-                out.append(decorator(u'{0} {1}'.format(diff_type, line)))
+                out.append(decorator('{0} {1}'.format(diff_type, line)))
 
-            out.append(u'')
+            out.append('')
 
         pass_count = len([i for i in results if isinstance(i, SuccessResult)])
         fail_count = len([i for i in results if isinstance(i, FailureResult)])
 
-        out.append(u'Pass {0}, Fail {1}'.format(pass_count, fail_count))
+        out.append('Pass {0}, Fail {1}'.format(pass_count, fail_count))
 
-        return u'\n'.join(out)
+        return '\n'.join(out)
 
 
 Expectation = namedtuple('Expectation', 'range settings output')
@@ -567,7 +567,7 @@ class PluginSettingsDirective(Directive):
     option_spec = {}
 
     def run(self):
-        code = u'\n'.join(self.content)
+        code = '\n'.join(self.content)
 
         # Use the config parser to get our settings
         config_fp = StringIO('[settings]\n{0}'.format(code))
@@ -602,7 +602,7 @@ class ExpectationDirective(Directive):
         'to': directives.nonnegative_int}
 
     def run(self):
-        code = u'\n'.join(self.content)
+        code = '\n'.join(self.content)
         node = expectations_node(code, code)
 
         # The from and to are required

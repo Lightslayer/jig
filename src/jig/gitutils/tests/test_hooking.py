@@ -90,7 +90,7 @@ class TestHook(JigTestCase):
         self.assertEqual(1, retcode)
         self.assertResults(
             result_with_hint(
-                u'This repository has not been initialized.',
+                'This repository has not been initialized.',
                 GIT_REPO_NOT_INITIALIZED),
             output)
 
@@ -141,9 +141,9 @@ class TestCreateAutoInitTemplates(JigTestCase):
                 create_auto_init_templates(self.user_home_directory)
 
         self.assertEqual(
-            u'Cannot create {0}/.jig Jig user directory'.format(
+            'Cannot create {0}/.jig Jig user directory'.format(
                 self.user_home_directory),
-            unicode(ec.exception)
+            str(ec.exception)
         )
 
     def test_raises_exception_other_os_error(self):
@@ -157,8 +157,8 @@ class TestCreateAutoInitTemplates(JigTestCase):
                 create_auto_init_templates(self.user_home_directory)
 
         self.assertEqual(
-            u'[Errno 99] Flooglehorn is blocked',
-            unicode(ec.exception)
+            '[Errno 99] Flooglehorn is blocked',
+            str(ec.exception)
         )
 
     def test_continues_if_jig_user_directory_created(self):
@@ -254,8 +254,8 @@ class TestSetTemplatesDirectory(JigTestCase):
                 set_templates_directory(self.templates_directory)
 
         self.assertEqual(
-            u'Problem when running git config: error',
-            unicode(gce.exception)
+            'Problem when running git config: error',
+            str(gce.exception)
         )
 
     def test_init_templatedir_already_set(self):

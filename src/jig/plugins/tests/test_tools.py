@@ -3,7 +3,7 @@ from os import rmdir, stat, makedirs
 from os.path import isfile, join
 from tempfile import mkdtemp
 from calendar import timegm
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 from datetime import datetime, timedelta
 
 from git import Git
@@ -199,10 +199,10 @@ class TestUpdatePlugins(PluginTestCase):
 
             results = update_plugins(self.gitrepodir)
 
-        pm, value = results.items()[0]
+        pm, value = list(results.items())[0]
 
         # We have our two plugins from the manager
-        self.assertEquals(2, len(pm.plugins))
+        self.assertEqual(2, len(pm.plugins))
 
         # And it called ``git pull`` on the repository
         mock_execute.assert_called_once_with(
@@ -397,5 +397,5 @@ class TestReadPluginList(PluginTestCase):
         plugin_list = read_plugin_list('a/b.txt')
 
         self.assertEqual(
-            [u'foo', u'bar', u'baz'],
+            ['foo', 'bar', 'baz'],
             plugin_list)

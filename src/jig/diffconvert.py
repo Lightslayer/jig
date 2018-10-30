@@ -30,7 +30,7 @@ def _make_unicode(string):
     :param str string: basestring
     :rtype: unicode
     """
-    if isinstance(string, unicode):
+    if isinstance(string, str):
         return string
     return string.decode(CODEC)
 

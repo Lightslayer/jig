@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Jig'
-copyright = u'2014, Rob Madole'
+project = 'Jig'
+copyright = '2014, Rob Madole'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -178,8 +178,8 @@ htmlhelp_basename = 'JigDoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Jig.tex', u'Jig Documentation',
-   u'Rob Madole', 'manual'),
+  ('index', 'Jig.tex', 'Jig Documentation',
+   'Rob Madole', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -211,6 +211,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'jig', u'Jig Documentation',
-     [u'Rob Madole'], 1)
+    ('index', 'jig', 'Jig Documentation',
+     ['Rob Madole'], 1)
 ]

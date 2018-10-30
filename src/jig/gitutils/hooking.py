@@ -50,7 +50,7 @@ def _pre_commit_has_hallmark(pre_commit_file):
     """
     with open(pre_commit_file) as fh:
         script = fh.read()
-        if u'from jig' in script or u'jig init' in script:
+        if 'from jig' in script or 'jig init' in script:
             return True
     return False
 
@@ -125,7 +125,7 @@ def create_auto_init_templates(user_home_directory):
     jig_git_user_directory = join(jig_user_directory, 'git')
 
     try:
-        map(makedirs, [jig_user_directory, jig_git_user_directory])
+        list(map(makedirs, [jig_user_directory, jig_git_user_directory]))
     except OSError as ose:
         if ose.errno == 13:
             # Permission denied
@@ -136,7 +136,7 @@ def create_auto_init_templates(user_home_directory):
             )
         if ose.errno != 17:
             # Some other kind of OSError
-            raise JigUserDirectoryError(unicode(ose))
+            raise JigUserDirectoryError(str(ose))
 
     # Copy the shared Git templates directory to .jig/git/templates
     git_templates_directory = _git_templates()

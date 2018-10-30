@@ -204,7 +204,7 @@ class TestPluginTestRunner(PluginTestCase):
 
         self.add_timeline(plugin_dir, [('a.txt', 'a\n')])
         self.add_timeline(plugin_dir, [('a.txt', 'aa\n')])
-        self.add_expectation(plugin_dir, u'''
+        self.add_expectation(plugin_dir, '''
             .. expectation::
                 :from: 01
                 :to: 02
@@ -236,7 +236,7 @@ class TestPluginTestRunner(PluginTestCase):
 
         self.add_timeline(plugin_dir, [('a.txt', 'a\n')])
         self.add_timeline(plugin_dir, [('a.txt', 'aa\n')])
-        self.add_expectation(plugin_dir, u'''
+        self.add_expectation(plugin_dir, '''
             .. expectation::
                 :from: 01
                 :to: 02
@@ -269,7 +269,7 @@ class TestPluginTestRunner(PluginTestCase):
 
         self.add_timeline(plugin_dir, [('a.txt', 'a\n')])
         self.add_timeline(plugin_dir, [('a.txt', 'aa\n')])
-        self.add_expectation(plugin_dir, u'''
+        self.add_expectation(plugin_dir, '''
             .. expectation::
                 :from: 01
                 :to: 02
@@ -296,7 +296,7 @@ class TestPluginTestRunner(PluginTestCase):
         self.add_timeline(plugin_dir, [('a.txt', 'a\n')])
         self.add_timeline(plugin_dir, [('a.txt', 'aa\n')])
 
-        self.add_expectation(plugin_dir, u'''
+        self.add_expectation(plugin_dir, '''
             .. plugin-settings::
 
                 verbose = no
@@ -325,7 +325,7 @@ class TestPluginTestRunner(PluginTestCase):
         self.add_timeline(plugin_dir, [('a.txt', 'a\n')])
         self.add_timeline(plugin_dir, [('a.txt', 'aa\n')])
 
-        self.add_expectation(plugin_dir, u'''
+        self.add_expectation(plugin_dir, '''
             .. expectation::
                 :from: 01
                 :to: 02
@@ -339,7 +339,7 @@ class TestPluginTestRunner(PluginTestCase):
 
             results = ptr.run()
 
-        self.assertResults(u'''
+        self.assertResults('''
             ▾  plugin
 
             ✓  Non-JSON''', results[0].actual)
@@ -353,7 +353,7 @@ class TestPluginTestRunner(PluginTestCase):
         self.add_timeline(plugin_dir, [('a.txt', 'a\n')])
         self.add_timeline(plugin_dir, [('a.txt', 'aa\n')])
 
-        self.add_expectation(plugin_dir, u'''
+        self.add_expectation(plugin_dir, '''
             .. expectation::
                 :from: 01
                 :to: 02
@@ -367,7 +367,7 @@ class TestPluginTestRunner(PluginTestCase):
 
             results = ptr.run()
 
-        self.assertResults(u'''
+        self.assertResults('''
             Exit code: 1
 
             Std out:
@@ -396,7 +396,7 @@ class TestPluginTestRunner(PluginTestCase):
                 ('src/b.txt', 'bbb\n')])
 
         self.add_expectation(
-            plugin_dir, u'''
+            plugin_dir, '''
             .. expectation::
                 :from: 01
                 :to: 02
@@ -447,22 +447,22 @@ class TestPluginTestReporter(PluginTestCase):
 
         ptr = PluginTestReporter(results)
 
-        self.assertEqual(u'Pass 0, Fail 0', ptr.dumps())
+        self.assertEqual('Pass 0, Fail 0', ptr.dumps())
 
     def test_single_failure(self):
         """
         Reports a single failure.
         """
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             FailureResult(
-                actual=u'bbb', expectation=expectation,
+                actual='bbb', expectation=expectation,
                 plugin=MockPlugin())]
 
         ptr = PluginTestReporter(results)
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Fail
 
             Actual
@@ -483,15 +483,15 @@ class TestPluginTestReporter(PluginTestCase):
         """
         Report a single success.
         """
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin())]
 
         ptr = PluginTestReporter(results)
 
-        self.assertResults(u'''
+        self.assertResults('''
             01 – 02 Pass
 
             Pass 1, Fail 0''', ptr.dumps())
@@ -500,24 +500,24 @@ class TestPluginTestReporter(PluginTestCase):
         """
         Multiple results.
         """
-        expectation1 = Expectation((1, 2), None, u'aaa')
-        expectation2 = Expectation((2, 3), None, u'b\nb\nb\n')
-        expectation3 = Expectation((3, 4), None, u'ccc')
+        expectation1 = Expectation((1, 2), None, 'aaa')
+        expectation2 = Expectation((2, 3), None, 'b\nb\nb\n')
+        expectation3 = Expectation((3, 4), None, 'ccc')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation1,
+                actual='aaa', expectation=expectation1,
                 plugin=MockPlugin()),
             FailureResult(
-                actual=u'b\nB\nb\n', expectation=expectation2,
+                actual='b\nB\nb\n', expectation=expectation2,
                 plugin=MockPlugin()),
             SuccessResult(
-                actual=u'ccc', expectation=expectation3,
+                actual='ccc', expectation=expectation3,
                 plugin=MockPlugin())]
 
         ptr = PluginTestReporter(results)
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Pass
 
             02 – 03 Fail
@@ -549,16 +549,16 @@ class TestPluginTestReporter(PluginTestCase):
         stdin = json.dumps(['a', 'b', 'c'])
         stdout = json.dumps(['d', 'e', 'f'])
 
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin(), stdin=stdin, stdout=stdout)]
 
         ptr = PluginTestReporter(results)
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Pass
 
             stdin (sent to the plugin)
@@ -588,16 +588,16 @@ class TestPluginTestReporter(PluginTestCase):
         stdin = 'a\nb\nc\n'
         stdout = 'd\ne\nf\n'
 
-        expectation = Expectation((1, 2), None, u'aaa')
+        expectation = Expectation((1, 2), None, 'aaa')
         results = [
             SuccessResult(
-                actual=u'aaa', expectation=expectation,
+                actual='aaa', expectation=expectation,
                 plugin=MockPlugin(), stdin=stdin, stdout=stdout)]
 
         ptr = PluginTestReporter(results)
 
         self.assertResults(
-            u'''
+            '''
             01 – 02 Pass
 
             stdin (sent to the plugin)
@@ -675,7 +675,7 @@ class TestGetExpectations(PluginTestCase):
 
         self.assertEqual(1, len(exps))
         self.assertEqual(
-            Expectation(range=(1, 2), settings=None, output=u'Output'),
+            Expectation(range=(1, 2), settings=None, output='Output'),
             exps[0])
 
     def test_settings(self):
@@ -699,7 +699,7 @@ class TestGetExpectations(PluginTestCase):
 
         self.assertEqual(1, len(exps))
         self.assertEqual(
-            Expectation((1, 2), {'a': '1', 'b': '2'}, u'Output'),
+            Expectation((1, 2), {'a': '1', 'b': '2'}, 'Output'),
             exps[0])
 
     def test_settings_at_distance(self):
@@ -726,7 +726,7 @@ class TestGetExpectations(PluginTestCase):
                 Output''')))
 
         self.assertEqual(
-            Expectation((1, 2), {'a': '1', 'b': '2'}, u'Output'),
+            Expectation((1, 2), {'a': '1', 'b': '2'}, 'Output'),
             exps[0])
 
     def test_multiple_expectations(self):
@@ -761,8 +761,8 @@ class TestGetExpectations(PluginTestCase):
                 Output 2''')))
 
         self.assertEqual([
-            Expectation((1, 2), {'a': '1'}, u'Output 1'),
-            Expectation((2, 3), {'a': '1'}, u'Output 2')],
+            Expectation((1, 2), {'a': '1'}, 'Output 1'),
+            Expectation((2, 3), {'a': '1'}, 'Output 2')],
             exps)
 
 

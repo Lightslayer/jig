@@ -2,15 +2,15 @@
 import sys
 import codecs
 from functools import wraps
-from StringIO import StringIO
+from io import StringIO
 from contextlib import contextmanager
 
 from jig.exc import ForcedExit
 
 # Message types
-INFO = u'info'
-WARN = u'warn'
-STOP = u'stop'
+INFO = 'info'
+WARN = 'warn'
+STOP = 'stop'
 
 
 def strip_paint(payload):
@@ -22,7 +22,7 @@ def strip_paint(payload):
 
     Returns a unicode string without the paint.
     """
-    strip = [u'\x1b[31;1m', u'\x1b[32;1m', u'\x1b[33;1m', u'\x1b[39;22m']
+    strip = ['\x1b[31;1m', '\x1b[32;1m', '\x1b[33;1m', '\x1b[39;22m']
     for paint in strip:
         payload = payload.replace(paint, '')
     return payload
@@ -47,13 +47,13 @@ def lookup_type(strtype):
         u'info'
 
     """
-    strtype = unicode(strtype) or u''
+    strtype = str(strtype) or ''
     mt = strtype.lower()
-    if mt.startswith(u'i'):
+    if mt.startswith('i'):
         return INFO
-    if mt.startswith(u'w'):
+    if mt.startswith('w'):
         return WARN
-    if mt.startswith(u's'):
+    if mt.startswith('s'):
         return STOP
 
     # Default to INFO
@@ -171,14 +171,14 @@ class ConsoleView(object):
             stdout = utf8_writer(sys.stdout)
             fo = self._collect['stdout'] if self.collect_output else stdout
 
-            yield lambda line: fo.write(unicode(line) + u'\n')
+            yield lambda line: fo.write(str(line) + '\n')
         except Exception as e:
             stderr = utf8_writer(sys.stderr)
             fo = self._collect['stderr'] if self.collect_output else stderr
-            fo.write(unicode(e) + u'\n')
+            fo.write(str(e) + '\n')
 
             if hasattr(e, 'hint'):
-                fo.write(unicode(_get_hint(e.hint)) + u'\n')
+                fo.write(str(_get_hint(e.hint)) + '\n')
 
             try:
                 retcode = e.retcode
@@ -317,7 +317,7 @@ class ResultsCollator(object):
         """
         @wraps(func)
         def wrapper(*args, **kwargs):
-            for plugin, result in self._results.items():
+            for plugin, result in list(self._results.items()):
                 self._plugins.add(plugin)
 
                 retcode, stdout, stderr = result
@@ -364,7 +364,7 @@ class ResultsCollator(object):
             # This is for file or line specific messages
             return
 
-        if isinstance(obj, basestring):
+        if isinstance(obj, str):
             # Straight up message, normalize this for our loop
             obj = [obj]
 
@@ -373,7 +373,7 @@ class ResultsCollator(object):
             for m in obj:
                 if not m:
                     continue
-                if isinstance(m, basestring):
+                if isinstance(m, str):
                     # Straight up message, normalize this for our loop
                     yield Message(plugin, body=m)
                     continue
@@ -403,8 +403,8 @@ class ResultsCollator(object):
             # This is not a file specific messages
             return
 
-        for filename, group in obj.items():
-            if isinstance(group, basestring):
+        for filename, group in list(obj.items()):
+            if isinstance(group, str):
                 group = [group]
 
             if not isinstance(group, list):
@@ -412,7 +412,7 @@ class ResultsCollator(object):
                 continue
 
             for msg in group:
-                if isinstance(msg, basestring):
+                if isinstance(msg, str):
                     msg = [msg]
 
                 if not isinstance(msg, list):
@@ -468,12 +468,12 @@ class ResultsCollator(object):
             # This is not a file or line specific messages
             return
 
-        for filename, group in obj.items():
-            if isinstance(group, basestring):
+        for filename, group in list(obj.items()):
+            if isinstance(group, str):
                 group = [group]
 
             for msg in group:
-                if isinstance(msg, basestring):
+                if isinstance(msg, str):
                     msg = [msg]
 
                 if 0 <= len(msg) <= 2:

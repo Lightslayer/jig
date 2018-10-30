@@ -23,7 +23,7 @@ class TestInitCommand(CommandTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'Git repository has been initialized for use with Jig.',
+                'Git repository has been initialized for use with Jig.',
                 AFTER_INIT),
             self.output)
 
@@ -38,7 +38,7 @@ class TestInitCommand(CommandTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'Git repository has been initialized for use with Jig.',
+                'Git repository has been initialized for use with Jig.',
                 AFTER_INIT),
             self.output)
 

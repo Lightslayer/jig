@@ -110,7 +110,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter({})
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..0
             """,
@@ -124,7 +124,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.no_results())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..0
             """,
@@ -138,7 +138,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.commit_specific_message())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..2
             ok 1 - default
@@ -162,7 +162,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.file_specific_message())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..5
             not ok 1 - a.txt
@@ -206,7 +206,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.line_specific_message())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..3
             ok 1 - a.txt:1
@@ -238,7 +238,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.one_of_each())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..3
             ok 1 - C
@@ -269,7 +269,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.commit_specific_error())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..2
             not ok 1 - {0}
@@ -293,7 +293,7 @@ class TestTapFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.file_specific_error())
 
         self.assertResults(
-            u"""
+            """
             TAP version 13
             1..4
             not ok 1 - {{'a.txt': {0}}}

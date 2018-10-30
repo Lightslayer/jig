@@ -2,9 +2,9 @@ import json
 from os import listdir
 from os.path import join, isfile, isdir, realpath
 from subprocess import Popen, PIPE
-from ConfigParser import SafeConfigParser
-from ConfigParser import Error as ConfigParserError
-from ConfigParser import NoSectionError
+from configparser import SafeConfigParser
+from configparser import Error as ConfigParserError
+from configparser import NoSectionError
 
 from jig.exc import PluginError
 from jig.conf import PLUGIN_CONFIG_FILENAME, PLUGIN_PRE_COMMIT_SCRIPT
@@ -275,9 +275,9 @@ class Plugin(object):
             # Generic non-zero retcode that indicates an error
             retcode = 1
             if ose.errno == 32:
-                stderr = u'Error: received SIGPIPE from the command'
+                stderr = 'Error: received SIGPIPE from the command'
             else:
-                stderr = unicode(ose)
+                stderr = str(ose)
 
         # And return the relevant stuff
         return retcode, stdout, stderr
@@ -298,9 +298,9 @@ class PluginDataJSONEncoder(json.JSONEncoder):
         obj = []
         for f in files:
             obj.append({
-                'type': unicode(f['type']),
-                'name': unicode(f['name']),
-                'filename': unicode(f['filename']),
+                'type': str(f['type']),
+                'name': str(f['name']),
+                'filename': str(f['filename']),
                 'diff': [j for j in f['diff']]})
 
         return obj

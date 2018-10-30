@@ -14,7 +14,7 @@ def _format_description(message):
         description = message.file
 
     if message.file and message.line:
-        description = u'{file}:{line}'.format(
+        description = '{file}:{line}'.format(
             file=message.file, line=message.line
         )
 
@@ -30,9 +30,9 @@ def _escape_for_yaml(body):
 
     :param str body: the string to escape
     """
-    escaped_body = str(body).replace(u'\\', u'\\\\').replace(u'"', u'\\"')
+    escaped_body = str(body).replace('\\', '\\\\').replace('"', '\\"')
 
-    return u'"{0}"'.format(escaped_body)
+    return '"{0}"'.format(escaped_body)
 
 
 def _format_message(test_number, message):
@@ -44,23 +44,23 @@ def _format_message(test_number, message):
     :rtype: str
     :returns: the formatted message
     """
-    preamble = u'ok' if message.type == INFO else u'not ok'
+    preamble = 'ok' if message.type == INFO else 'not ok'
     plugin = message.plugin.name
     description = _format_description(message)
     body = message.body
 
     lines = []
-    lines.append(u'{preamble} {test_number}{description}')
-    lines.append(u'  ---')
+    lines.append('{preamble} {test_number}{description}')
+    lines.append('  ---')
 
     if message.file:
-        lines.append(u'  message: {body}')
+        lines.append('  message: {body}')
 
-    lines.append(u'  plugin: {plugin}')
-    lines.append(u'  severity: {type}')
-    lines.append(u'  ...')
+    lines.append('  plugin: {plugin}')
+    lines.append('  severity: {type}')
+    lines.append('  ...')
 
-    return u'\n'.join(lines).format(
+    return '\n'.join(lines).format(
         preamble=preamble,
         test_number=test_number,
         description=description,

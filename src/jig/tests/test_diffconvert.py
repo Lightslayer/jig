@@ -39,9 +39,9 @@ def assertDiff(func):
     def wrapper(self, **kwargs):
         queue = func(self, **kwargs)
 
-        a = queue.next()
-        b = queue.next()
-        expected = queue.next()
+        a = next(queue)
+        b = next(queue)
+        expected = next(queue)
 
         a = dedent(a).strip()
         b = dedent(b).strip()
@@ -331,7 +331,7 @@ class TestGitDiffIndex(JigTestCase):
 
         self.assertEqual(1, len(list(gdi.files())))
 
-        file1 = gdi.files().next()
+        file1 = next(gdi.files())
 
         # This one is relative to the Git repo
         self.assertEqual('argument.txt', file1['name'])
@@ -350,7 +350,7 @@ class TestGitDiffIndex(JigTestCase):
 
         self.assertEqual(1, len(list(gdi.files())))
 
-        file1 = gdi.files().next()
+        file1 = next(gdi.files())
         diff = [i for i in file1['diff']]
         difftypes = set([i[1] for i in diff])
 
@@ -374,7 +374,7 @@ class TestGitDiffIndex(JigTestCase):
 
         self.assertEqual(1, len(list(gdi.files())))
 
-        file1 = gdi.files().next()
+        file1 = next(gdi.files())
         diff = [i for i in file1['diff']]
         difftypes = set([i[1] for i in diff])
 

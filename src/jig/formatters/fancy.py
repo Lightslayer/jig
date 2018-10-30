@@ -2,9 +2,9 @@
 from jig.output import INFO, WARN, STOP
 from jig.formatters.utils import green_bold, yellow_bold, red_bold
 
-OK_SIGN = u'\U0001f44c'
-ATTENTION = u'\U0001f449'
-EXPLODE = u'\U0001f4a5'
+OK_SIGN = '\U0001f44c'
+ATTENTION = '\U0001f449'
+EXPLODE = '\U0001f4a5'
 
 
 class FancyFormatter(object):
@@ -27,14 +27,14 @@ class FancyFormatter(object):
         errors = collator.errors
         reporters = collator.reporters
 
-        form = u'plugin' if len(plugins) == 1 else u'plugins'
+        form = 'plugin' if len(plugins) == 1 else 'plugins'
 
         if len(reporters) == 0 and len(errors) == 0:
             # Nothing to report
-            form = u'plugin' if len(plugins) == 1 else u'plugins'
+            form = 'plugin' if len(plugins) == 1 else 'plugins'
             printer(
-                u'{ok_sign}  Jig ran {plen} {form}, '
-                u'nothing to report'.format(
+                '{ok_sign}  Jig ran {plen} {form}, '
+                'nothing to report'.format(
                     ok_sign=OK_SIGN, plen=len(plugins), form=form
                 )
             )
@@ -48,36 +48,36 @@ class FancyFormatter(object):
 
         # How do our message types map to a symbol
         type_to_symbol = {
-            INFO: green_bold(u'\u2713'),
-            WARN: yellow_bold(u'\u26a0'),
-            STOP: red_bold(u'\u2715')}
+            INFO: green_bold('\u2713'),
+            WARN: yellow_bold('\u26a0'),
+            STOP: red_bold('\u2715')}
 
         ic, wc, sc = (0, 0, 0)
         last_plugin = None
         for msg in messages:
             if last_plugin != msg.plugin:
-                printer(u'\u25be  {0}'.format(msg.plugin.name))
+                printer('\u25be  {0}'.format(msg.plugin.name))
                 printer('')
                 last_plugin = msg.plugin
-            colorized = u'{0}  {1}'.format(
+            colorized = '{0}  {1}'.format(
                 type_to_symbol[msg.type], self._format_message(msg))
             printer(colorized)
             printer('')
 
-        ic, wc, sc = [i[1] for i in collator.counts.items()]
+        ic, wc, sc = [i[1] for i in list(collator.counts.items())]
         info = green_bold(ic) if ic else ic
         warn = yellow_bold(wc) if wc else wc
         stop = red_bold(sc) if sc else sc
 
         sign = EXPLODE if sc > 0 else ATTENTION
-        printer(u'{explode}  Jig ran {plen} {form}'.format(
+        printer('{explode}  Jig ran {plen} {form}'.format(
             explode=sign, plen=len(plugins), form=form))
 
-        printer(u'    Info {ic} Warn {wc} Stop {sc}'.format(
+        printer('    Info {ic} Warn {wc} Stop {sc}'.format(
             ic=info, wc=warn, sc=stop))
 
         if len(errors):
-            printer(u'    ({ec} {form} reported errors)'.format(
+            printer('    ({ec} {form} reported errors)'.format(
                 ec=len(errors), form=form))
 
         # Return the counts for the different types of messages
@@ -88,19 +88,19 @@ class FancyFormatter(object):
         Formats a single message to a string.
         """
         out = []
-        header = u''
-        body = u''
+        header = ''
+        body = ''
 
         if msg.line:
-            header += u'line {0}: '.format(msg.line)
+            header += 'line {0}: '.format(msg.line)
 
         if msg.file:
             header += msg.file
 
         if header:
-            body = u'    {0}'.format(msg.body)
+            body = '    {0}'.format(msg.body)
         else:
-            body = u'{0}'.format(msg.body)
+            body = '{0}'.format(msg.body)
 
         if header:
             out.append(header)

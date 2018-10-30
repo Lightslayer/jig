@@ -125,22 +125,22 @@ class Command(BaseCommand):
             bundles = plugins_by_bundle(pm)
 
             if not bundles:
-                printer(u'No plugins installed.')
+                printer('No plugins installed.')
                 printer(NO_PLUGINS_INSTALLED)
                 return
 
-            printer(u'Installed plugins\n')
+            printer('Installed plugins\n')
 
-            printer(u'{h1:<25} {h2}'.format(
-                h1=u'Plugin name', h2=u'Bundle name'))
+            printer('{h1:<25} {h2}'.format(
+                h1='Plugin name', h2='Bundle name'))
 
-            sort_bundles = sorted(bundles.items(), key=lambda b: b[0])
+            sort_bundles = sorted(list(bundles.items()), key=lambda b: b[0])
 
             for name, plugins in sort_bundles:
                 sort_plugins = sorted(plugins, key=lambda p: p.name)
 
                 for plugin in sort_plugins:
-                    printer(u'{plugin:.<25} {name}'.format(
+                    printer('{plugin:.<25} {name}'.format(
                         name=name, plugin=plugin.name))
 
             printer(USE_RUNNOW)
@@ -191,7 +191,7 @@ class Command(BaseCommand):
             printer('Updating plugins')
             printer('')
 
-            for pm, output in results.items():
+            for pm, output in list(results.items()):
                 names = set([i.name for i in pm.plugins])
                 bundles = set([i.bundle for i in pm.plugins])
 

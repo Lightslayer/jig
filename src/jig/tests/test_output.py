@@ -1,5 +1,5 @@
 # coding=utf-8
-from StringIO import StringIO
+from io import StringIO
 
 from jig.tests import factory
 from jig.tests.testcase import JigTestCase
@@ -57,7 +57,7 @@ class TestUTF8Writer(JigTestCase):
 
         writer = utf8_writer(collector)
 
-        writer.write(u'☆')
+        writer.write('☆')
 
         self.assertEqual(collector.getvalue(), '\xe2\x98\x86')
 
@@ -165,7 +165,7 @@ class TestResultsCollator(JigTestCase):
         )
 
         # And our type counts should be 1 info 1 warning
-        self.assertEqual({u'info': 1, u'warn': 1, u'stop': 0}, rc.counts)
+        self.assertEqual({'info': 1, 'warn': 1, 'stop': 0}, rc.counts)
 
         # The rest of these should be empty
         self.assertEqual([], fm)
@@ -180,7 +180,7 @@ class TestResultsCollator(JigTestCase):
         """
         rc = ResultsCollator(factory.file_specific_message())
 
-        self.assertEqual({u'info': 1, u'warn': 3, u'stop': 1}, rc.counts)
+        self.assertEqual({'info': 1, 'warn': 3, 'stop': 1}, rc.counts)
 
         cm, messages, lm = rc.messages
 
@@ -238,18 +238,18 @@ class TestResultsCollator(JigTestCase):
         """
         rc = ResultsCollator(factory.line_specific_message())
 
-        self.assertEqual({u'info': 1, u'warn': 1, u'stop': 1}, rc.counts)
+        self.assertEqual({'info': 1, 'warn': 1, 'stop': 1}, rc.counts)
 
         cm, fm, messages = rc.messages
 
         self.assertEqual(
-            Message(None, type='info', body='Info A', file=u'a.txt', line=1),
+            Message(None, type='info', body='Info A', file='a.txt', line=1),
             messages[0])
         self.assertEqual(
-            Message(None, type='warn', body='Warn B', file=u'b.txt', line=2),
+            Message(None, type='warn', body='Warn B', file='b.txt', line=2),
             messages[1])
         self.assertEqual(
-            Message(None, type='stop', body='Stop C', file=u'c.txt', line=3),
+            Message(None, type='stop', body='Stop C', file='c.txt', line=3),
             messages[2])
 
         # The other messages should be empty
@@ -265,7 +265,7 @@ class TestResultsCollator(JigTestCase):
         """
         rc = ResultsCollator(factory.one_of_each())
 
-        self.assertEqual({u'info': 3, u'warn': 0, u'stop': 0}, rc.counts)
+        self.assertEqual({'info': 3, 'warn': 0, 'stop': 0}, rc.counts)
 
         cm, fm, lm = rc.messages
 
@@ -277,10 +277,10 @@ class TestResultsCollator(JigTestCase):
             Message(None, type="info", body="C"),
             cm[0])
         self.assertEqual(
-            Message(None, type="info", body="F", file=u'a.txt'),
+            Message(None, type="info", body="F", file='a.txt'),
             fm[0])
         self.assertEqual(
-            Message(None, type="info", body="L", file=u'a.txt', line=1),
+            Message(None, type="info", body="L", file='a.txt', line=1),
             lm[0])
 
     def test_commit_specific_errors(self):

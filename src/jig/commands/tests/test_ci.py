@@ -99,7 +99,7 @@ class TestCiCommand(CommandTestCase):
         self.assertEqual('a', plugin.name)
 
         self.assertResults(
-            u'''
+            '''
             From {0}:
              - Added plugin a in bundle a
             '''.format(self.pluginpath),
@@ -121,7 +121,7 @@ class TestCiCommand(CommandTestCase):
         )
 
         self.assertResults(
-            u'First run, tracking branch created for HEAD',
+            'First run, tracking branch created for HEAD',
             self.error
         )
 
@@ -178,4 +178,4 @@ class TestCiCommand(CommandTestCase):
             )
 
         # This is a marker that will be present from the fancy formatter
-        self.assertIn(u'\U0001f449  Jig ran 1 plugin', self.output)
+        self.assertIn('\U0001f449  Jig ran 1 plugin', self.output)

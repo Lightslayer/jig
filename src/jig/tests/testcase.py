@@ -4,7 +4,7 @@ from os import makedirs
 from os.path import join, dirname
 from subprocess import STDOUT, CalledProcessError
 from functools import wraps
-from StringIO import StringIO
+from io import StringIO
 from textwrap import dedent
 
 from mock import patch
@@ -54,7 +54,7 @@ def result_with_hint(payload, hint):
     :param unicode payload: the first line of the result
     :param list hint: one of the attributes of :class:`jig.commands.hints`
     """
-    return dedent(payload).strip() + u'\n' + hint
+    return dedent(payload).strip() + '\n' + hint
 
 
 class JigTestCase(unittest.TestCase):
@@ -359,7 +359,7 @@ class FormatterTestCase(JigTestCase):
         """
         collector = StringIO()
         collator = ResultsCollator(results)
-        printer = lambda line: collector.write(unicode(line) + u'\n')
+        printer = lambda line: collector.write(str(line) + '\n')
 
         self.formatter().print_results(printer, collator)
 

@@ -2,11 +2,11 @@
 # vim: set filetype=python :
 import sys
 import logging
-import SimpleHTTPServer
-import SocketServer
+import http.server
+import socketserver
 import posixpath
 import argparse
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import os
 from functools import partial
 
@@ -34,7 +34,7 @@ class BuildDocsHandler(FileSystemEventHandler):
         self.build()
 
 
-class DocsHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class DocsHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     """
     Request handler with an explicit root instead of using os.getcwd().
@@ -45,9 +45,9 @@ class DocsHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def translate_path(self, path):
         path = path.split('?',1)[0]
         path = path.split('#',1)[0]
-        path = posixpath.normpath(urllib.unquote(path))
+        path = posixpath.normpath(urllib.parse.unquote(path))
         words = path.split('/')
-        words = filter(None, words)
+        words = [_f for _f in words if _f]
 
         # Use our root here instead of the current working directory
         path = self._root
@@ -121,7 +121,7 @@ def main(argv):
     # working directory.
     DocsHTTPRequestHandler._root = options.destination
 
-    server = SocketServer.TCPServer(
+    server = socketserver.TCPServer(
         ('', options.port),
         DocsHTTPRequestHandler)
 

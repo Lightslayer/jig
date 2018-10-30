@@ -1,6 +1,9 @@
 import sys
 import traceback
-from urlparse import urlparse
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 from os import listdir
 from os.path import join, dirname, isdir
 from tempfile import mkstemp
@@ -198,7 +201,7 @@ class BaseCommand(object):
 
         exc_info = sys.exc_info()
 
-        report_contents = dedent(u"""
+        report_contents = dedent("""
             Arguments:
 
             {args}
@@ -209,13 +212,13 @@ class BaseCommand(object):
             """
         ).strip().format(
             args=str(args),
-            traceback=u''.join(traceback.format_exception(*exc_info))
+            traceback=''.join(traceback.format_exception(*exc_info))
         )
 
         with open(report_file, 'w') as fh:
             fh.write(report_contents + '\n')
 
-        message = dedent(u"""
+        message = dedent("""
             --- CRASH REPORT ---
 
             Jig has failed to operate as expected.

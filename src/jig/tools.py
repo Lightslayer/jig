@@ -11,23 +11,23 @@ from git import Repo
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 
-def slugify(text, delim=u'-'):
+def slugify(text, delim='-'):
     """
     Generates a an ASCII-only slug.
 
     .. Author Armin Ronacher: http://flask.pocoo.org/snippets/5/
     """
     result = []
-    for word in _punct_re.split(unicode(text).lower()):
+    for word in _punct_re.split(str(text).lower()):
         nword = normalize('NFKD', word).encode('ascii', 'ignore')
         if nword:
             # Filter out non-printable
             pword = ''.join([i for i in nword if ord(i) > 31])
             result.append(pword)
-    return unicode(delim.join(filter(bool, result)))
+    return str(delim.join(filter(bool, result)))
 
 
-def indent(payload, by=4, character=u' '):
+def indent(payload, by=4, character=' '):
     """
     Indents a sequence of strings with whitespace.
 
@@ -41,13 +41,13 @@ def indent(payload, by=4, character=u' '):
 
     """
     return_first = False
-    if isinstance(payload, (basestring)):
+    if isinstance(payload, (str)):
         payload = [payload]
         return_first = True
 
     indented = []
     for line in payload:
-        indented.append(''.join([unicode(character)] * by) + unicode(line))
+        indented.append(''.join([str(character)] * by) + str(line))
 
     if return_first:
         return indented[0]

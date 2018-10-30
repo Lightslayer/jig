@@ -19,7 +19,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter({})
 
         self.assertResults(
-            u"""
+            """
             {0}  Jig ran 0 plugins, nothing to report
             """.format(OK_SIGN),
             printed
@@ -32,7 +32,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.no_results())
 
         self.assertResults(
-            u"""
+            """
             {0}  Jig ran 10 plugins, nothing to report
             """.format(OK_SIGN),
             printed
@@ -45,7 +45,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.commit_specific_message())
 
         self.assertResults(
-            u"""
+            """
             ▾  Unnamed
 
             ✓  default
@@ -66,7 +66,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.file_specific_message())
 
         self.assertResults(
-            u"""
+            """
             ▾  Unnamed
 
             ⚠  a.txt
@@ -100,7 +100,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.line_specific_message())
 
         self.assertResults(
-            u"""
+            """
             ▾  Unnamed
 
             ✓  line 1: a.txt
@@ -124,7 +124,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.one_of_each())
 
         self.assertResults(
-            u"""
+            """
             ▾  Unnamed
 
             ✓  C
@@ -151,7 +151,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.commit_specific_error())
 
         self.assertResults(
-            u"""
+            """
             ▾  Unnamed
 
             ✕  {0}
@@ -174,7 +174,7 @@ class TestFancyFormatter(FormatterTestCase):
         printed = self.run_formatter(factory.file_specific_error())
 
         self.assertResults(
-            u"""
+            """
             ▾  Unnamed
 
             ✕  {{'a.txt': {0}}}

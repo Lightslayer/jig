@@ -37,7 +37,7 @@ class TestRunNowCommand(CommandTestCase, PluginTestCase):
         self.assertSystemExitCode(ec.exception, 0)
 
         self.assertEqual(
-            u'No changes available for Jig to check, skipping.\n',
+            'No changes available for Jig to check, skipping.\n',
             self.output)
 
     def test_changes(self):
@@ -62,7 +62,7 @@ class TestRunNowCommand(CommandTestCase, PluginTestCase):
 
         r_sys.exit.assert_called_once_with(0)
 
-        self.assertResults(u"""
+        self.assertResults("""
             ▾  plugin01
 
             ⚠  line 1: b.txt
@@ -92,7 +92,7 @@ class TestRunNowCommand(CommandTestCase, PluginTestCase):
 
             self.run_command('--plugin plugin01 {0}'.format(self.gitrepodir))
 
-        self.assertResults(u"""
+        self.assertResults("""
             ▾  plugin01
 
             ⚠  line 1: b.txt
@@ -135,6 +135,6 @@ class TestRunNowCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'This repository has not been initialized.',
+                'This repository has not been initialized.',
                 GIT_REPO_NOT_INITIALIZED),
             self.error)

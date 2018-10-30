@@ -74,11 +74,11 @@ class Command(BaseCommand, InstallCommandMixin):
 
                 raise CIFirstRun()
 
-            printer(u'')
-            printer(u'Tracking branch {0} references commit {1}'.format(
+            printer('')
+            printer('Tracking branch {0} references commit {1}'.format(
                 tracking_branch, tracked.reference.commit.hexsha
             ))
-            printer(u'')
+            printer('')
 
         # Run Jig from the tracking branch to HEAD
         runner = Runner(view=self.view, formatter=get_formatter(output_format))

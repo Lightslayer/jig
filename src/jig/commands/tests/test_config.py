@@ -1,7 +1,7 @@
 # coding=utf-8
 from os.path import join
 from tempfile import mkdtemp
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 
 from jig.tests.testcase import (
     CommandTestCase, PluginTestCase,
@@ -77,7 +77,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
         with open(config_filename) as fh:
             config.readfp(fh)
 
-        for key, value in settings_about.items():
+        for key, value in list(settings_about.items()):
             config.set('help', key, value)
 
         with open(config_filename, 'w') as fh:
@@ -94,7 +94,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'No plugins installed.',
+                'No plugins installed.',
                 NO_PLUGINS_INSTALLED),
             self.output)
 
@@ -117,7 +117,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'''
+                '''
                 test01.plugin01.a=1
                 test01.plugin01.b=2
                 test01.plugin01.c=3
@@ -145,7 +145,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'''
+                '''
                 test01.plugin01.a=1
                 test01.plugin01.b=2
                 test01.plugin01.c=3
@@ -172,7 +172,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'''
+                '''
                 test01.plugin01.a=one
                 test01.plugin01.b=2
                 test01.plugin01.c=3
@@ -205,7 +205,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
         self.run_command('list -r {0}'.format(self.gitrepodir))
 
         self.assertResults(result_with_hint(
-            u'''
+            '''
             Installed plugins have no settings.
             ''',
             CHANGE_PLUGIN_SETTINGS),
@@ -225,7 +225,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
                 self.gitrepodir))
 
         self.assertResults(
-            u'Could not locate plugin notplugin.',
+            'Could not locate plugin notplugin.',
             self.error)
 
     def test_config_invalid_key(self):
@@ -240,7 +240,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             self.run_command('set -r {0} a:b:c 111'.format(self.gitrepodir))
 
         self.assertResults(result_with_hint(
-            u'''
+            '''
             a:b:c is an invalid config key.
             ''',
             INVALID_CONFIG_KEY),
@@ -275,7 +275,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'No plugins installed.',
+                'No plugins installed.',
                 NO_PLUGINS_INSTALLED),
             self.output)
 
@@ -291,7 +291,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             'about -r {0}'.format(self.gitrepodir))
 
         self.assertResults(
-            u'Installed plugins have no settings.',
+            'Installed plugins have no settings.',
             self.output)
 
     def test_config_no_help_but_defaults(self):
@@ -307,7 +307,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             'about -r {0}'.format(self.gitrepodir))
 
         self.assertResults(
-            u'''
+            '''
             test01.plugin01.a
             (default: 1)
 
@@ -336,7 +336,7 @@ class TestPluginCommand(CommandTestCase, PluginTestCase):
             'about -r {0}'.format(self.gitrepodir))
 
         self.assertResults(
-            u'''
+            '''
             test01.plugin01.a
             (default: 1)
                turn a on

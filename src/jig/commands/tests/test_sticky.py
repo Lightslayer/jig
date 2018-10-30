@@ -34,7 +34,7 @@ class TestStickyCommand(CommandTestCase):
     def _start_patches(self):
         assert len(self._patches) == 0
 
-        for function, mock_function in self.mocks.items():
+        for function, mock_function in list(self.mocks.items()):
             patched = patch(
                 'jig.commands.sticky.{0}'.format(function),
                 new=mock_function
@@ -62,7 +62,7 @@ class TestStickyCommand(CommandTestCase):
         self.run_command()
 
         self.assertResults(
-            u'Jig has been setup to run everytime you clone.',
+            'Jig has been setup to run everytime you clone.',
             self.output)
 
     def test_fails_create_auto_init_templates(self):
@@ -76,7 +76,7 @@ class TestStickyCommand(CommandTestCase):
             self.run_command()
 
         self.assertResults(
-            u'Error',
+            'Error',
             self.error)
 
     def test_templates_missing(self):
@@ -91,7 +91,7 @@ class TestStickyCommand(CommandTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'Unable to find templates.',
+                'Unable to find templates.',
                 GIT_TEMPLATES_MISSING),
             self.error)
 
@@ -107,7 +107,7 @@ class TestStickyCommand(CommandTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'~/.jig/git/templates already exists',
+                '~/.jig/git/templates already exists',
                 GIT_HOME_TEMPLATES_EXISTS),
             self.error)
 
@@ -123,7 +123,7 @@ class TestStickyCommand(CommandTestCase):
 
         self.assertResults(
             result_with_hint(
-                u'Git configuration for init.templatedir is /tmp/templates',
+                'Git configuration for init.templatedir is /tmp/templates',
                 INIT_TEMPLATE_DIR_ALREADY_SET),
             self.error)
 
@@ -139,5 +139,5 @@ class TestStickyCommand(CommandTestCase):
             self.run_command()
 
         self.assertResults(
-            u'Problem when running git config: error',
+            'Problem when running git config: error',
             self.error)
